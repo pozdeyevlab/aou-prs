@@ -52,3 +52,25 @@ bash regression.sh \
 -d <demographic file> \
 -m <map file> \
 ```
+
+# Example 
+Example of all three steps (assumes demographic file is named `meta_data.tsv` and pgens have the suffix `filtered_v7`)
+```bash
+# Format Weight Inputs
+bash make_map.sh -i example_weights_input.tsv -o  test_map.tsv -w ./weight_files/
+
+# Run Escalator
+bash escalator.sh \
+-e /ESCALATOR-main/eureka_cloud_version/scripts/masterPRS_v4.sh> \
+-s filtered_v7 \
+-o escalator_output \
+-i /PGENS/ \
+-d /weight_files \
+-m test_map.tsv
+
+# Run Regression Analysis
+bash regression.sh \
+-s escalator_output \
+-d meta_data.tsv \
+-m test_map.tsv
+```
