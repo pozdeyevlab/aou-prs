@@ -1,5 +1,5 @@
 # aou-prs
-This repository contains the scripts necessary generate polygenic risk scores (PRS’s) on an [All of Us](https://www.researchallofus.org/) (AoU) persistent disk, using [escalator](https://github.com/menglin44/ESCALATOR), and then evaluate the performance of the PRS via AUC or R2 measurement. 
+This repository contains the scripts necessary to generate polygenic risk scores (PRS’s) on an [All of Us](https://www.researchallofus.org/) (AoU) persistent disk, using [escalator](https://github.com/menglin44/ESCALATOR), and then evaluate the performance of the PRS via AUC or R2 measurement. 
 
 **Due to install limitations on AoU, this relies on bash scripts as opposed to a proper workflow language**
 
