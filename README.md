@@ -61,7 +61,7 @@ bash make_map.sh -i example_weights_input.tsv -o  test_map.tsv -w ./weight_files
 
 # Run Escalator
 bash escalator.sh \
--e /ESCALATOR-main/eureka_cloud_version/scripts/masterPRS_v4.sh> \
+-e /ESCALATOR-main/eureka_cloud_version/scripts/masterPRS_v4.sh \
 -s filtered_v7 \
 -o escalator_output \
 -i /PGENS/ \
