@@ -1,11 +1,11 @@
 # aou-prs
-This repository contains the scripts necessary generate polygenic risk scores (PRS’s) on an All of Us[https://www.researchallofus.org/] (AoU) persistent disk, using escalator[https://github.com/menglin44/ESCALATOR], and then evaluate the performance of the PRS via AUC or R2 measurement. 
+This repository contains the scripts necessary generate polygenic risk scores (PRS’s) on an [All of Us](https://www.researchallofus.org/) (AoU) persistent disk, using [escalator](https://github.com/menglin44/ESCALATOR), and then evaluate the performance of the PRS via AUC or R2 measurement. 
 
 **Due to install limitations on AoU, this relies on bash scripts as opposed to a proper workflow language**
 
 # How to use
 ## AoU Disclaimer
-Do not attempt to run the scripts in this repository without having gained 'Controlled Tier Access' on AoU. Additionally, downloading any data pertaining to fewer than 20 individuals is strictly prohibited. By default, prs performance will only be evaluated on cohorts that have at least 20 positive cases for binary phenotypes and 20 total samples for continuous phenotypes. The Pozdeyev Research Group recommends further filtering to ~100 individuals before downloading. This ensures that the data policy will not be downloaded and helps remove potential false positives/negatives that may be artifacts of low statical power. 
+Do not attempt to run the scripts in this repository without having gained 'Controlled Tier Access' on AoU. Additionally, downloading any data pertaining to fewer than 20 individuals is strictly prohibited. By default, prs performance will only be evaluated on cohorts that have at least 20 positive cases for binary phenotypes and 20 total samples for continuous phenotypes. The Pozdeyev Research Group recommends further filtering to ~100 individuals before downloading. This ensures that the data policy will not be downloaded and helps remove potential false positives/negatives that may be artifacts of low statistical power. 
 
 ## Required Inputs
 1)	**PGS Inputs**:Space separated file with the following columns [pgs (ID), phenotype (disease name), regression (logistic or linear)]
@@ -19,11 +19,11 @@ pip install polars
 pip install defopt
 ```
 ### Step 1
-The first step is to download specified PGS weight files from the PGS Catalog Database, and then ensure they are formatted properly for escalator[https://github.com/menglin44/ESCALATOR]. 
+The first step is to download specified PGS weight files from the PGS Catalog Database, and then ensure they are formatted properly for [escalator](https://github.com/menglin44/ESCALATOR). 
 ```bash
 bash make_map.sh -i <**PGS Inputs**> -o  <**name of map file**> -w <directory to store weight files in> 
 ```
-## # Step 2
+### Step 2
 After downloading and preparing your weight file(s) you are now ready to calculate PRS’s. This is done through `escalator.sh` and requires the following inputs:
 -e: Path to masterPRS_v4.sh (escalator script)
 -s Suffix of pgens
