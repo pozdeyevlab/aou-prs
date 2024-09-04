@@ -1,5 +1,5 @@
 # aou-prs
-This repository contains the scripts necessary to generate polygenic risk scores (PRS’s) on an [All of Us](https://www.researchallofus.org/) (AoU) persistent disk, using [escalator](https://github.com/menglin44/ESCALATOR), and then evaluate the performance of the PRS via AUC or R2 measurement. 
+This repository contains the scripts necessary to generate polygenic risk scores (PRS’s) on an [All of Us](https://www.researchallofus.org/) (AoU) persistent disk, using [ESCALATOR](https://github.com/menglin44/ESCALATOR), and then evaluate the performance of the PRS via AUC or R2 measurement. 
 
 **Due to install limitations on AoU, this relies on bash scripts as opposed to a proper workflow language**
 
@@ -7,6 +7,22 @@ This repository contains the scripts necessary to generate polygenic risk scores
 ## AoU Disclaimer
 Do not attempt to run the scripts in this repository without having gained 'Controlled Tier Access' on AoU. Additionally, downloading any data pertaining to fewer than 20 individuals is strictly prohibited. By default, prs performance will only be evaluated on cohorts that have at least 20 positive cases for binary phenotypes and 20 total samples for continuous phenotypes. The Pozdeyev Research Group recommends further filtering to ~100 individuals before downloading. This ensures that the data policy will not be downloaded and helps remove potential false positives/negatives that may be artifacts of low statistical power. 
 
+## Setting Up ESCALATOR
+Follow the steps laid out below in order to run [ESCALATOR](https://github.com/menglin44/ESCALATOR)
+```bash
+# Clone this repo
+git clone https://github.com/pozdeyevlab/aou-prs.git
+cd aou-prs
+
+# Clone ESCALATOR
+git clone https://github.com/MatthewFisher126/ESCALATOR.git
+tar -xvzf ESCALATOR/eureka_cloud_version/bin/prs_pipeline_bin.tar.gz -C ESCALATOR/eureka_cloud_version/bin/
+
+# Ammend main ESCALATOR script (ESCALATOR/eureka_cloud_version/scripts/masterPRS_v4.sh)
+# Replace line 13 of with script_path="ESCALATOR/eureka_cloud_version/scripts"
+# Replace line 14 with bin_path="ESCALATOR/eureka_cloud_version/bin/prs_pipeline_bin"
+# Hash out lines 83 & 84
+```
 ## Required Inputs
 1)	**PGS Inputs**:Space separated file with the following columns [pgs (ID), phenotype (disease name), regression (logistic or linear)]
 2)	**Meta Data**:Demographics file, a tab separated file with AoU IIDs, sex at birth, education quartiles, income quartiles, age, disease outcomes correlating to disease names in file listed above. 
@@ -34,7 +50,7 @@ After downloading and preparing your weight file(s) you are now ready to calcula
 
 ```bash
 bash escalator.sh \
--e <path to ~/ESCALATOR-main/eureka_cloud_version/scripts/masterPRS_v4.sh> \
+-e <path to ~/ESCALATOR/eureka_cloud_version/scripts/masterPRS_v4.sh> \
 -s <filtered_v7> \
 -o <~/pgs_scores> \
 -i <~/PGENS> \
@@ -47,7 +63,7 @@ The final step, after escalator has successfully completed, is to run linear/log
 -d path to demographics file
 -m map file [ID, weight file name, version number, disease]
 ```bash
-bash regression.sh \
+bash bash_scripts/regression.sh \
 -s <score directory> \
 -d <demographic file> \
 -m <map file> \
@@ -60,7 +76,7 @@ Example of all three steps (assumes demographic file is named `meta_data.tsv` an
 bash make_map.sh -i example_weights_input.tsv -o  test_map.tsv -w ./weight_files/
 
 # Run Escalator
-bash escalator.sh \
+bash bash_scripts/escalator.sh \
 -e /ESCALATOR-main/eureka_cloud_version/scripts/masterPRS_v4.sh \
 -s filtered_v7 \
 -o escalator_output \
@@ -69,8 +85,18 @@ bash escalator.sh \
 -m test_map.tsv
 
 # Run Regression Analysis
-bash regression.sh \
+bash bash_scripts/regression.sh \
 -s escalator_output \
 -d meta_data.tsv \
 -m test_map.tsv
+```
+
+## Option to use main.sh
+```bash
+bash main.sh \
+-d weights_dir \ # path to weight directory
+-m map_file.tsv \ # path to map file
+-w weights.txt \ # path to weight inputs
+-p pgens \ # path to pgen directory
+-i meta_data.tsv \ # path to meta data
 ```

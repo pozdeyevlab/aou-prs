@@ -1,9 +1,7 @@
 echo 'running'
 # Read in named command line args
-while getopts ":s:d:m:w:p:i:" opt; do
+while getopts ":d:m:w:p:i:" opt; do
   case $opt in
-    s) score_dir="$OPTARG"
-    ;;
     d) weight_dir="$OPTARG"
     ;;
     m) map_file="$OPTARG"
