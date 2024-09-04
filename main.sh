@@ -33,7 +33,7 @@ bash bash_scripts/make_map.sh -i $weight_file -o $map_file -w $weight_dir
 # Run Escalator
 echo "Starting ESCALATOR"
 bash bash_scripts/escalator.sh \
--e /ESCALATOR/eureka_cloud_version/scripts/masterPRS_v4.sh \
+-e git statusESCALATOR/eureka_cloud_version/scripts/masterPRS_v4.sh \
 -s filtered_v7 \
 -o escalator_output \
 -i $pgen_dir \
