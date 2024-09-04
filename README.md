@@ -22,6 +22,12 @@ tar -xvzf ESCALATOR/eureka_cloud_version/bin/prs_pipeline_bin.tar.gz -C ESCALATO
 # Replace line 13 of with script_path="ESCALATOR/eureka_cloud_version/scripts"
 # Replace line 14 with bin_path="ESCALATOR/eureka_cloud_version/bin/prs_pipeline_bin"
 # Hash out lines 83 & 84
+
+# Change python path
+sed -i.bak 's/\/bin\/python3/python/g' ESCALATOR/eureka_cloud_version/scripts/masterPRS_v4.sh
+
+# Give plink execute permissions
+chmod u+x ESCALATOR/eureka_cloud_version/bin/prs_pipeline_bin/plink2_mar
 ```
 ## Required Inputs
 1)	**PGS Inputs**:Space separated file with the following columns [pgs (ID), phenotype (disease name), regression (logistic or linear)]
@@ -94,7 +100,7 @@ bash bash_scripts/regression.sh \
 ## Option to use main.sh
 ```bash
 bash main.sh \
--d weights_dir \ # path to weight directory
+-d weights \ # path to weight directory
 -m map_file.tsv \ # path to map file
 -w weights.txt \ # path to weight inputs
 -p pgens \ # path to pgen directory

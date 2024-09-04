@@ -42,5 +42,11 @@ do
 	echo ${escalator}
 	echo ${weight_dir}
 	echo ${output_dir}
-	bash ${escalator} 3 ${weight_dir} ${weight_file} ${output_dir} ${pgs_id} ${pgen_dir} ${pgen_suffix} F NA
+	bash ${escalator} \
+  3 \
+  ${weight_dir} ${weight_file} \
+  ${output_dir} \
+  ${pgs_id} \
+  ${pgen_dir} ${pgen_suffix} \
+  F NA
 done < ${map_file}

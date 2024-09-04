@@ -43,8 +43,6 @@ def format(*, input_file: str, output_file: Path, header_n: int) -> pl.DataFrame
             has_header=False,
         )
 
-    print(data)
-    print(header)
 
     # Open the file in write mode
     with open(output_file, "w") as f:
