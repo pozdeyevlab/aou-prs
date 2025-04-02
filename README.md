@@ -77,6 +77,7 @@ bash bash_scripts/regression.sh \
 
 # Example 
 Example of all three steps (assumes demographic file is named `meta_data.tsv` and pgens have the suffix `filtered_v7`)
+Note the file `example_weights_input.tsv` must be a space separated file with the following columns prs, phenotype, and regression ['logistic', 'linear']. No headers.
 ```bash
 # Format Weight Inputs
 bash make_map.sh -i example_weights_input.tsv -o  test_map.tsv -w ./weight_files/
