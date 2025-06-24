@@ -24,7 +24,9 @@ def linear_regression(*, all_pl: pl.DataFrame, formula: str, disease: str) -> No
     formula_list = formula.replace(" ", "").split("~")[1].split("+")
     formula_list.append(disease)
     all_pl = all_pl.select(formula_list).drop_nulls()
-
+    
+    all_pl = all_pl.with_columns((pl.col(disease).cast(float)).alias(disease))
+    
     # Convert columns of type str to dummy values
     str_columns = [col for col in all_pl.columns if all_pl[col].dtype == pl.Utf8]
     
@@ -32,16 +34,13 @@ def linear_regression(*, all_pl: pl.DataFrame, formula: str, disease: str) -> No
         dummy_cols = all_pl.select(str_columns).to_dummies()
         all_pl = all_pl.drop(str_columns)
         all_pl = pl.concat((all_pl, dummy_cols), how="horizontal")
+    
     if all_pl.shape[0] >= 20:
         n = all_pl.shape[0]
         # Collect all columns that are required covariates
         X = all_pl.drop(disease).to_numpy()
         y = all_pl.select(disease).to_numpy()
 
-        # Split data 80:20
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42
-        )
 
         # Only continue if there are at least 20 people in the test set
         if y.shape[0] > 20:
@@ -70,8 +69,8 @@ def linear_regression(*, all_pl: pl.DataFrame, formula: str, disease: str) -> No
             return [
                 mse,
                 r2,
-                X_train.shape[0],
-                X_test.shape[0],
+                None,
+                None,
                 mean_prs,
                 median_prs,
                 var_prs,
@@ -81,9 +80,13 @@ def linear_regression(*, all_pl: pl.DataFrame, formula: str, disease: str) -> No
                 n
             ]
         else:
+            print('Not enough cases for linear regression')
+            print(all_pl.head())
             return None
 
 
 if __name__ == "__main__":
     defopt.run(linear_regression)
+
+
 
