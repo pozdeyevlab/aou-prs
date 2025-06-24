@@ -28,14 +28,16 @@ def logistic_regression(
     formula_list = formula.replace(" ", "").split("~")[1].split("+")
     formula_list.append(disease)
     all_pl = all_pl.select(formula_list).drop_nulls()
-
+    # enforce disease as int
+    all_pl = all_pl.with_columns((pl.col(disease).cast(int)).alias(disease))
+    
     # Convert columns of type str to dummy values
     str_columns = [col for col in all_pl.columns if all_pl[col].dtype == pl.Utf8]
     if len(str_columns) != 0:
         dummy_cols = all_pl.select(str_columns).to_dummies()
         all_pl = all_pl.drop(str_columns)
         all_pl = pl.concat((all_pl, dummy_cols), how="horizontal")
-    if all_pl.shape[0] > 20:
+    if (all_pl.shape[0] > 20) & (all_pl.filter(pl.col(disease)==0).shape[0] > 20):
         # Collect all columns that are required covariates
         X = all_pl.drop(disease).to_numpy()
         y = all_pl.select(disease).to_numpy()
@@ -91,8 +93,11 @@ def logistic_regression(
                 controls
             ]
     else:
+        print('Only One Case Class')
+        print(all_pl[disease].unique())
         return None
 
 
 if __name__ == "__main__":
     defopt.run(logistic_regression)
+
